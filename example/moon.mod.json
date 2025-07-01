@@ -1,0 +1,16 @@
+{
+  "name": "justjavac/core_affinity/example",
+  "version": "0.1.0",
+  "deps": {
+    "justjavac/core_affinity": {
+      "path": ".."
+    }
+  },
+  "readme": "",
+  "repository": "https://github.com/justjavac/moonbit-core-affinity/tree/main/example",
+  "license": "MIT",
+  "keywords": [],
+  "description": "",
+  "source": "",
+  "warn-list": ""
+}

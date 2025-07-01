@@ -1,0 +1,17 @@
+{
+  "name": "justjavac/core_affinity",
+  "version": "0.1.0",
+  "readme": "README.md",
+  "repository": "https://github.com/justjavac/moonbit-core-affinity",
+  "license": "MIT",
+  "keywords": [
+    "cpu",
+    "affinity",
+    "core",
+    "processor",
+    "hardware",
+    "system"
+  ],
+  "description": "A Moonbit module to manage CPU core affinity.",
+  "source": "src"
+}
