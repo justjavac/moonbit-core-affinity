@@ -1,4 +1,7 @@
 {
+  "test-import": [
+    "justjavac/num_cpus"
+  ],
   "supported-targets": ["native"],
   "targets": {
     "core_affinity.mbt": ["native"]
