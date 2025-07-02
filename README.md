@@ -38,37 +38,12 @@ fn main {
 }
 ```
 
-## API
-
-### `get_core_ids() -> Array[Int]`
-
-Returns the identifiers of all cores that the current thread can run on.
-
-- **Windows**: Uses `GetProcessAffinityMask()` to get thread affinity mask
-- **Unix/Linux/macOS**: Uses `sched_getaffinity()` or equivalent system calls
-- **Fallback**: Returns all available cores for unknown platforms
-
-**Returns:** An array of core IDs that the current thread is allowed to run on.
-
-### `set_for_current(ids: Array[Int]) -> Bool`
-
-Sets the identifiers of all cores that the current thread can run on.
-
-- **Windows**: Uses `SetThreadAffinityMask()` to set thread affinity
-- **Unix/Linux/macOS**: Uses `sched_setaffinity()` or equivalent system calls
-- **Validation**: Validates that core IDs are within valid range
-
-**Parameters:**
-- `ids`: An array of core IDs to restrict the current thread to
-
-**Returns:** `true` if the affinity was successfully set, `false` otherwise
-
 ## Platform Support
 
 | Platform | get_core_ids() | set_for_current() | Implementation |
 |----------|----------------|-------------------|----------------|
-| Windows | ✅ | ✅ | Win32 API (GetProcessAffinityMask, SetThreadAffinityMask) |
-| Linux | ✅ | ✅ | POSIX (sched_getaffinity, sched_setaffinity) |
+| Windows | ✅ | ✅ | Win32 API (`GetProcessAffinityMask`, `SetThreadAffinityMask`) |
+| Linux | ✅ | ✅ | POSIX (`sched_getaffinity`, `sched_setaffinity`) |
 | macOS | ✅ | ✅ | BSD/Darwin thread affinity APIs |
 | Other Unix | ⚠️ | ⚠️ | Limited support, platform-dependent |
 
