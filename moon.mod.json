@@ -1,6 +1,9 @@
 {
   "name": "justjavac/core_affinity",
   "version": "0.1.0",
+  "deps": {
+    "justjavac/num_cpus": "0.1.2"
+  },
   "readme": "README.md",
   "repository": "https://github.com/justjavac/moonbit-core-affinity",
   "license": "MIT",
