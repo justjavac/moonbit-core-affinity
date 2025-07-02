@@ -19,7 +19,6 @@ bool moonbit_set_affinity_mask(uint64_t mask) {
 }
 
 #elif defined(__linux__)
-
 #define _GNU_SOURCE
 #include <sched.h>
 #include <unistd.h>
