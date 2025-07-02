@@ -1,3 +1,7 @@
+#ifdef __linux__
+#define _GNU_SOURCE
+#endif
+
 #include "moonbit.h"
 #include <stdbool.h>
 #include <stdint.h>
@@ -19,9 +23,9 @@ bool moonbit_set_affinity_mask(uint64_t mask) {
 }
 
 #elif defined(__linux__)
-#define _GNU_SOURCE
 #include <sched.h>
 #include <unistd.h>
+#include <errno.h>
 
 uint64_t moonbit_get_affinity_mask() {
     cpu_set_t mask;
