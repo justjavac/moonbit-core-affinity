@@ -1,4 +1,4 @@
-package "justjavac/core-affinity"
+package "justjavac/core_affinity"
 
 // Values
 fn get_core_ids() -> Array[Int]
