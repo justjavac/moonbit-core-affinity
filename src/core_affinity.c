@@ -6,10 +6,18 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+// Cross-platform function export macros
+#ifdef _WIN32
+#define EXPORT __declspec(dllexport)
+#else
+#define EXPORT __attribute__((visibility("default")))
+#endif
+
 #ifdef _WIN32
 #include <windows.h>
 
-uint64_t moonbit_get_affinity_mask() {
+// Export functions for Windows DLL linking
+EXPORT uint64_t moonbit_get_affinity_mask() {
     DWORD_PTR process_affinity_mask;
     DWORD_PTR system_affinity_mask;
     if (GetProcessAffinityMask(GetCurrentProcess(), &process_affinity_mask, &system_affinity_mask)) {
@@ -18,7 +26,7 @@ uint64_t moonbit_get_affinity_mask() {
     return 0;
 }
 
-bool moonbit_set_affinity_mask(uint64_t mask) {
+EXPORT bool moonbit_set_affinity_mask(uint64_t mask) {
     return SetThreadAffinityMask(GetCurrentThread(), (DWORD_PTR)mask) != 0;
 }
 
@@ -27,7 +35,7 @@ bool moonbit_set_affinity_mask(uint64_t mask) {
 #include <unistd.h>
 #include <errno.h>
 
-uint64_t moonbit_get_affinity_mask() {
+EXPORT uint64_t moonbit_get_affinity_mask() {
     cpu_set_t mask;
     if (sched_getaffinity(0, sizeof(cpu_set_t), &mask) == 0) {
         uint64_t result = 0;
@@ -41,7 +49,7 @@ uint64_t moonbit_get_affinity_mask() {
     return 0;
 }
 
-bool moonbit_set_affinity_mask(uint64_t mask_val) {
+EXPORT bool moonbit_set_affinity_mask(uint64_t mask_val) {
     cpu_set_t mask;
     CPU_ZERO(&mask);
     for (int i = 0; i < 64; i++) {
@@ -59,7 +67,7 @@ bool moonbit_set_affinity_mask(uint64_t mask_val) {
 #include <sys/sysctl.h>
 #include <pthread.h>
 
-uint64_t moonbit_get_affinity_mask() {
+EXPORT uint64_t moonbit_get_affinity_mask() {
     int count;
     size_t size = sizeof(count);
     if (sysctlbyname("hw.logicalcpu", &count, &size, NULL, 0) == 0) {
@@ -72,7 +80,7 @@ uint64_t moonbit_get_affinity_mask() {
     return 0;
 }
 
-bool moonbit_set_affinity_mask(uint64_t mask) {
+EXPORT bool moonbit_set_affinity_mask(uint64_t mask) {
     // Check if we're on Apple Silicon (ARM64)
     size_t size = sizeof(int);
     int is_arm64 = 0;
@@ -101,11 +109,11 @@ bool moonbit_set_affinity_mask(uint64_t mask) {
 
 #else
 
-uint64_t moonbit_get_affinity_mask() {
+EXPORT uint64_t moonbit_get_affinity_mask() {
     return 0;
 }
 
-bool moonbit_set_affinity_mask(uint64_t mask) {
+EXPORT bool moonbit_set_affinity_mask(uint64_t mask) {
     return false;
 }
 
