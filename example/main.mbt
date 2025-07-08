@@ -40,18 +40,16 @@ fn main {
   if core_ids.length() > 1 {
     let second_core_id = core_ids[1]
     println("\nSetting affinity to core: " + second_core_id.to_string())
-    let success2 = @core_affinity.set_for_current([second_core_id])
-    if not(success2) {
+    let success = @core_affinity.set_for_current([second_core_id])
+    if not(success) {
       println("Failed to set affinity to core: " + second_core_id.to_string())
       return
     }
     println("Successfully set affinity to core: " + second_core_id.to_string())
 
     // Verify the change again
-    let current_cores2 = @core_affinity.get_core_ids()
-    println(
-      "Current thread can now run on cores: " + current_cores2.to_string(),
-    )
+    let current_cores = @core_affinity.get_core_ids()
+    println("Current thread can now run on cores: " + current_cores.to_string())
   } else {
     println("\nOnly one core available, skipping second core test.")
   }
@@ -60,8 +58,8 @@ fn main {
   if core_ids.length() > 2 {
     let multi_cores = [core_ids[0], core_ids[2]]
     println("\nSetting affinity to multiple cores: " + multi_cores.to_string())
-    let success3 = @core_affinity.set_for_current(multi_cores)
-    if success3 {
+    let success = @core_affinity.set_for_current(multi_cores)
+    if success {
       println("Successfully set affinity to cores: " + multi_cores.to_string())
       let final_cores = @core_affinity.get_core_ids()
       println("Final thread affinity: " + final_cores.to_string())
@@ -70,6 +68,16 @@ fn main {
     }
   } else {
     println("\nLess than 3 cores available, skipping multi-core test.")
+  }
+  let success = @core_affinity.set_for_current([core_ids.length()])
+  if success {
+    println(
+      "\nSuccessfully set affinity to non-existent core \{core_ids.length().to_string()} (this should not happen)",
+    )
+  } else {
+    println(
+      "\nFailed to set affinity to non-existent core \{core_ids.length().to_string()} as expected",
+    )
   }
   println("\n=== Example completed successfully ===")
 }
