@@ -4,6 +4,6 @@
     "core_affinity.mbt": ["native"]
   },
   "native-stub": [
-    "core_affinity.c"
+    "core_affinity_stub.c"
   ]
 }
