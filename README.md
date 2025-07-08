@@ -2,6 +2,8 @@
 
 A MoonBit library for managing CPU core affinities to control thread-to-core binding.
 
+This library enables precise control over CPU core affinity, allowing you to bind threads to specific cores. It's particularly useful for high-performance applications, real-time systems, and scenarios where you need to optimize CPU cache locality, reduce context switching overhead, or isolate workloads on dedicated cores.
+
 ## Installation
 
 Add `justjavac/core_affinity` to your dependencies:
