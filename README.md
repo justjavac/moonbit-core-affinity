@@ -95,27 +95,6 @@ fn bind_to_even_cores() -> Bool {
 }
 ```
 
-### Restoring Original Affinity
-
-```moonbit
-fn demo_with_restore() {
-  // Save original affinity
-  let original_cores = @core_affinity.get_core_ids()
-  
-  // Set to single core
-  if original_cores.length() > 0 {
-    @core_affinity.set_for_current([original_cores[0]])
-    println("Running on single core")
-    
-    // Do some work...
-    
-    // Restore original affinity
-    @core_affinity.set_for_current(original_cores)
-    println("Restored to original affinity")
-  }
-}
-```
-
 ## Examples
 
 You can find example usage in the `example/` directory:
