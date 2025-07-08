@@ -7,8 +7,8 @@ A MoonBit library for managing CPU core affinities to control thread-to-core bin
 Add `justjavac/core_affinity` to your dependencies:
 
 ```bash
-moon add justjavac/core_affinity
 moon update
+moon add justjavac/core_affinity
 ```
 
 ## Usage
