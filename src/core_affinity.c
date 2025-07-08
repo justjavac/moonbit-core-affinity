@@ -4,32 +4,11 @@
 
 #include "moonbit.h"
 
-// Platform-specific includes
-// Note: Using standard C types as they directly map to MoonBit FFI types:
-// - uint64_t maps to MoonBit's UInt64
-// - int32_t maps to MoonBit's Bool (represented as 32-bit integer)
-// - For Windows, we need to use dllexport for function definitions
-
-// Define proper export macro for each platform
-#ifdef _WIN32
-#ifdef MOONBIT_EXPORT
-#undef MOONBIT_EXPORT
-#endif
-#define MOONBIT_EXPORT __declspec(dllexport)
-#elif defined(__linux__) || defined(__APPLE__)
-#ifndef MOONBIT_EXPORT
-#define MOONBIT_EXPORT __attribute__((visibility("default")))
-#endif
-#else
-#ifndef MOONBIT_EXPORT
-#define MOONBIT_EXPORT
-#endif
-#endif
 #ifdef _WIN32
 #include <windows.h>
 
 // Windows implementation using Win32 API
-MOONBIT_EXPORT uint64_t moonbit_get_affinity_mask() {
+MOONBIT_FFI_EXPORT uint64_t moonbit_get_affinity_mask() {
     DWORD_PTR process_affinity_mask;
     DWORD_PTR system_affinity_mask;
     if (GetProcessAffinityMask(GetCurrentProcess(), &process_affinity_mask, &system_affinity_mask)) {
@@ -38,7 +17,7 @@ MOONBIT_EXPORT uint64_t moonbit_get_affinity_mask() {
     return 0;
 }
 
-MOONBIT_EXPORT int32_t moonbit_set_affinity_mask(uint64_t mask) {
+MOONBIT_FFI_EXPORT int32_t moonbit_set_affinity_mask(uint64_t mask) {
     return SetThreadAffinityMask(GetCurrentThread(), (DWORD_PTR)mask) != 0;
 }
 
@@ -48,7 +27,7 @@ MOONBIT_EXPORT int32_t moonbit_set_affinity_mask(uint64_t mask) {
 #include <errno.h>
 
 // Linux implementation using sched_*affinity functions
-MOONBIT_EXPORT uint64_t moonbit_get_affinity_mask() {
+MOONBIT_FFI_EXPORT uint64_t moonbit_get_affinity_mask() {
     cpu_set_t mask;
     if (sched_getaffinity(0, sizeof(cpu_set_t), &mask) == 0) {
         uint64_t result = 0;
@@ -62,7 +41,7 @@ MOONBIT_EXPORT uint64_t moonbit_get_affinity_mask() {
     return 0;
 }
 
-MOONBIT_EXPORT int32_t moonbit_set_affinity_mask(uint64_t mask_val) {
+MOONBIT_FFI_EXPORT int32_t moonbit_set_affinity_mask(uint64_t mask_val) {
     cpu_set_t mask;
     CPU_ZERO(&mask);
     for (int i = 0; i < 64; i++) {
@@ -80,7 +59,7 @@ MOONBIT_EXPORT int32_t moonbit_set_affinity_mask(uint64_t mask_val) {
 #include <pthread.h>
 
 // macOS implementation using thread affinity policy
-MOONBIT_EXPORT uint64_t moonbit_get_affinity_mask() {
+MOONBIT_FFI_EXPORT uint64_t moonbit_get_affinity_mask() {
     int count;
     size_t size = sizeof(count);
     if (sysctlbyname("hw.logicalcpu", &count, &size, NULL, 0) == 0) {
@@ -93,7 +72,7 @@ MOONBIT_EXPORT uint64_t moonbit_get_affinity_mask() {
     return 0;
 }
 
-MOONBIT_EXPORT int32_t moonbit_set_affinity_mask(uint64_t mask) {
+MOONBIT_FFI_EXPORT int32_t moonbit_set_affinity_mask(uint64_t mask) {
     // Check if we're on Apple Silicon (ARM64)
     size_t size = sizeof(int);
     int is_arm64 = 0;
@@ -122,11 +101,11 @@ MOONBIT_EXPORT int32_t moonbit_set_affinity_mask(uint64_t mask) {
 
 #else
 // Fallback implementation for unsupported platforms
-MOONBIT_EXPORT uint64_t moonbit_get_affinity_mask() {
+MOONBIT_FFI_EXPORT uint64_t moonbit_get_affinity_mask() {
     return 0;
 }
 
-MOONBIT_EXPORT int32_t moonbit_set_affinity_mask(uint64_t mask) {
+MOONBIT_FFI_EXPORT int32_t moonbit_set_affinity_mask(uint64_t mask) {
     return 0;
 }
 
