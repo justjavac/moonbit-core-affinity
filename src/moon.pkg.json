@@ -1,7 +1,8 @@
 {
   "supported-targets": ["native"],
   "targets": {
-    "core_affinity.mbt": ["native"]
+    "core_affinity.mbt": ["native"],
+    "core_affinity_test.mbt": ["native"]
   },
   "native-stub": [
     "core_affinity_stub.c"
