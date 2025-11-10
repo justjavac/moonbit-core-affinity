@@ -57,7 +57,8 @@
 /// - Core IDs are zero-based and must be within system limits
 /// - Empty core arrays are invalid and will cause the operation to fail
 
-///| FFI binding: Set CPU affinity mask for current thread in native C code.
+///|
+/// FFI binding: Set CPU affinity mask for current thread in native C code.
 /// 
 /// This is an internal function that interfaces with the C implementation
 /// to set the CPU affinity mask for the current thread. The mask is a bitmask
@@ -82,7 +83,8 @@
 /// Users should use `set_for_current()` instead for public API access.
 extern "C" fn set_affinity_mask(mask : UInt64) -> Bool = "moonbit_set_affinity_mask"
 
-///| FFI binding: Get CPU affinity mask for current thread in native C code.
+///|
+/// FFI binding: Get CPU affinity mask for current thread in native C code.
 /// 
 /// This is an internal function that interfaces with the C implementation
 /// to retrieve the current CPU affinity mask for the calling thread.
@@ -104,7 +106,8 @@ extern "C" fn set_affinity_mask(mask : UInt64) -> Bool = "moonbit_set_affinity_m
 /// Users should use `get_core_ids()` instead for public API access.
 extern "C" fn get_affinity_mask() -> UInt64 = "moonbit_get_affinity_mask"
 
-///| Gets the identifiers of all CPU cores that the current thread can run on.
+///|
+/// Gets the identifiers of all CPU cores that the current thread can run on.
 /// 
 /// This function retrieves the current CPU affinity mask for the calling thread
 /// and converts it to a human-readable array of core identifiers. Each identifier
@@ -151,7 +154,8 @@ pub fn get_core_ids() -> Array[Int] {
   ids
 }
 
-///| Sets the CPU cores that the current thread is allowed to run on.
+///|
+/// Sets the CPU cores that the current thread is allowed to run on.
 /// 
 /// This function restricts the current thread to execute only on the specified
 /// CPU cores. This is useful for performance optimization, real-time applications,

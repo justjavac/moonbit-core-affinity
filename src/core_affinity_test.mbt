@@ -1,4 +1,5 @@
-///| Test that get_core_ids returns a non-empty list of available CPU cores.
+///|
+/// Test that get_core_ids returns a non-empty list of available CPU cores.
 /// 
 /// This test verifies that the current thread has access to at least one CPU core
 /// and that the core affinity detection is working correctly.
@@ -10,7 +11,8 @@ test "get_core_ids returns a non-empty list" {
   assert_true(ids.length() <= 64) // Bitmask limitation
 }
 
-///| Test setting CPU affinity for the current thread.
+///|
+/// Test setting CPU affinity for the current thread.
 /// 
 /// This test verifies that we can successfully restrict the current thread
 /// to run on a specific CPU core.
