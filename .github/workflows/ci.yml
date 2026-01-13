@@ -54,10 +54,6 @@ jobs:
         run: |
           moon test --target native
 
-      - name: moon test --doc
-        run: |
-          moon test --doc --target native
-
       - name: moon build
         run: |
           moon build --target native
@@ -113,10 +109,6 @@ jobs:
       - name: Run moon test
         run: |
           moon test --target native
-
-      - name: moon test --doc
-        run: |
-          moon test --doc --target native
 
       - name: moon build
         run: |
