@@ -130,7 +130,7 @@ extern "C" fn get_affinity_mask() -> UInt64 = "moonbit_get_affinity_mask"
 /// let core_ids = get_core_ids()
 /// println("Current thread can run on cores: \{core_ids}")
 /// // Output might be: [0, 1, 2, 3, 4, 5, 6, 7] on an 8-core system
-/// 
+///
 /// // Check if thread can run on a specific core
 /// if core_ids.contains(0) {
 ///   println("Thread can run on core 0")
@@ -195,7 +195,7 @@ pub fn get_core_ids() -> Array[Int] {
 /// } else {
 ///   println("Failed to set CPU affinity")
 /// }
-/// 
+///
 /// // Restore thread to run on all available cores
 /// let all_cores = [0, 1, 2, 3, 4, 5, 6, 7]  // Adjust based on your system
 /// let _restored = set_for_current(all_cores)
