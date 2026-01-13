@@ -2,9 +2,9 @@
 package "justjavac/core_affinity"
 
 // Values
-fn get_core_ids() -> Array[Int]
+pub fn get_core_ids() -> Array[Int]
 
-fn set_for_current(Array[Int]) -> Bool
+pub fn set_for_current(Array[Int]) -> Bool
 
 // Errors
 
