@@ -14,5 +14,7 @@
     "system"
   ],
   "description": "A Moonbit module to manage CPU core affinity.",
-  "source": "src"
+  "source": "src",
+  "preferred-target": "native",
+  "supported-targets": "+native"
 }

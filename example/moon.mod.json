@@ -12,5 +12,7 @@
   "keywords": [],
   "description": "",
   "source": ".",
-  "warn-list": ""
+  "warn-list": "",
+  "preferred-target": "native",
+  "supported-targets": "+native"
 }
