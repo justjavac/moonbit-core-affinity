@@ -102,7 +102,7 @@ fn bind_to_even_cores() -> Bool {
 You can find example usage in the `example/` directory:
 
 ```bash
-moon run --target native -C example .
+moon -C example run --target native .
 ```
 
 ## License

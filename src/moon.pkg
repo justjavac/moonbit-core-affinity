@@ -1,0 +1,5 @@
+options(
+  "native-stub": [ "core_affinity_stub.c" ],
+  "supported-targets": "+native",
+  targets: { "core_affinity.mbt": [ "native" ] },
+)

@@ -126,7 +126,7 @@ extern "C" fn get_affinity_mask() -> UInt64 = "moonbit_get_affinity_mask"
 /// 
 /// ## Example
 /// 
-/// ```moonbit
+/// ```moonbit nocheck
 /// let core_ids = get_core_ids()
 /// println("Current thread can run on cores: \{core_ids}")
 /// // Output might be: [0, 1, 2, 3, 4, 5, 6, 7] on an 8-core system
@@ -183,7 +183,7 @@ pub fn get_core_ids() -> Array[Int] {
 /// 
 /// ## Example
 /// 
-/// ```moonbit
+/// ```moonbit nocheck
 /// // Restrict thread to cores 0 and 2 only
 /// let success = set_for_current([0, 2])
 /// if success {
