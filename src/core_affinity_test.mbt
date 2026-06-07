@@ -28,7 +28,7 @@ test "set_for_current" {
   assert_true(success)
 
   let current_ids = get_core_ids()
-  println("Current thread can run on cores: " + current_ids.to_string())
+  println("Current thread can run on cores: \{to_repr(current_ids)}")
   assert_true(current_ids.contains(first_id))
   ignore(set_for_current(original_ids))
 }
