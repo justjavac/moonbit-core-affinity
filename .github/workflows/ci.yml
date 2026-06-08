@@ -9,7 +9,6 @@ jobs:
         os:
           - ubuntu-latest
           - macos-latest
-          - macos-15-intel
           - windows-latest
       fail-fast: false
     runs-on: ${{ matrix.os }}
@@ -63,7 +62,6 @@ jobs:
         os:
           - ubuntu-latest
           - macos-latest
-          - macos-15-intel
           - windows-latest
     continue-on-error: false
     runs-on: ${{ matrix.os }}
