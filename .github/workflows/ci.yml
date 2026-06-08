@@ -9,7 +9,7 @@ jobs:
         os:
           - ubuntu-latest
           - macos-latest
-          - macos-13
+          - macos-15-intel
           - windows-latest
       fail-fast: false
     runs-on: ${{ matrix.os }}
@@ -57,13 +57,13 @@ jobs:
         run: |
           moon build --target native
 
-  bleeding:
+  nightly:
     strategy:
       matrix:
         os:
           - ubuntu-latest
           - macos-latest
-          - macos-13
+          - macos-15-intel
           - windows-latest
     continue-on-error: false
     runs-on: ${{ matrix.os }}
@@ -73,13 +73,13 @@ jobs:
       - name: install
         if: ${{ matrix.os != 'windows-latest' }}
         run: |
-          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s bleeding
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s nightly
           echo "$HOME/.moon/bin" >> $GITHUB_PATH
 
       - name: install on windows
         if: ${{ matrix.os == 'windows-latest' }}
         env:
-          MOONBIT_INSTALL_VERSION: bleeding
+          MOONBIT_INSTALL_VERSION: nightly
         run: |
           Set-ExecutionPolicy RemoteSigned -Scope CurrentUser; irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
           "C:\Users\runneradmin\.moon\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
