@@ -1,6 +1,6 @@
 name = "justjavac/core_affinity"
 
-version = "0.2.3"
+version = "0.2.4"
 
 readme = "README.mbt.md"
 

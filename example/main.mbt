@@ -2,7 +2,8 @@
 //
 // Licensed under the MIT License
 
-///| Example usage of the core_affinity module
+///|
+/// Example usage of the core_affinity module
 /// 
 /// This example demonstrates how to:
 /// 1. Get available CPU cores
@@ -14,7 +15,7 @@ fn main {
 
   // Get current available cores
   let core_ids = @core_affinity.get_core_ids()
-  println("Available core IDs: " + core_ids.to_string())
+  println("Available core IDs: \{to_repr(core_ids)}")
 
   // Early return if no cores are available
   if core_ids.length() == 0 {
@@ -26,7 +27,7 @@ fn main {
   let first_core_id = core_ids[0]
   println("\nSetting affinity to core: " + first_core_id.to_string())
   let success = @core_affinity.set_for_current([first_core_id])
-  if not(success) {
+  if !success {
     println("Failed to set affinity to core: " + first_core_id.to_string())
     return
   }
@@ -34,14 +35,14 @@ fn main {
 
   // Verify the change
   let current_cores = @core_affinity.get_core_ids()
-  println("Current thread can now run on cores: " + current_cores.to_string())
+  println("Current thread can now run on cores: \{to_repr(current_cores)}")
 
   // Test with second core if available
   if core_ids.length() > 1 {
     let second_core_id = core_ids[1]
     println("\nSetting affinity to core: " + second_core_id.to_string())
     let success = @core_affinity.set_for_current([second_core_id])
-    if not(success) {
+    if !success {
       println("Failed to set affinity to core: " + second_core_id.to_string())
       return
     }
@@ -49,7 +50,7 @@ fn main {
 
     // Verify the change again
     let current_cores = @core_affinity.get_core_ids()
-    println("Current thread can now run on cores: " + current_cores.to_string())
+    println("Current thread can now run on cores: \{to_repr(current_cores)}")
   } else {
     println("\nOnly one core available, skipping second core test.")
   }
@@ -57,12 +58,12 @@ fn main {
   // Test with multiple cores if available
   if core_ids.length() > 2 {
     let multi_cores = [core_ids[0], core_ids[2]]
-    println("\nSetting affinity to multiple cores: " + multi_cores.to_string())
+    println("\nSetting affinity to multiple cores: \{to_repr(multi_cores)}")
     let success = @core_affinity.set_for_current(multi_cores)
     if success {
-      println("Successfully set affinity to cores: " + multi_cores.to_string())
+      println("Successfully set affinity to cores: \{to_repr(multi_cores)}")
       let final_cores = @core_affinity.get_core_ids()
-      println("Final thread affinity: " + final_cores.to_string())
+      println("Final thread affinity: \{to_repr(final_cores)}")
     } else {
       println("Failed to set affinity to multiple cores")
     }
@@ -80,4 +81,17 @@ fn main {
     )
   }
   println("\n=== Example completed successfully ===")
+}
+
+///|
+/// Smoke test that the example module can call the package dependency.
+test "core affinity dependency is usable" {
+  let original_ids = @core_affinity.get_core_ids()
+  assert_true(original_ids.length() > 0)
+
+  let first_id = original_ids[0]
+  assert_true(@core_affinity.set_for_current([first_id]))
+  assert_true(@core_affinity.get_core_ids().contains(first_id))
+
+  ignore(@core_affinity.set_for_current(original_ids))
 }
