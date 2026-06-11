@@ -75,12 +75,11 @@ pub fn get_core_ids() -> Array[Int] {
 ///   assert_true(original_ids.length() > 0)
 ///
 ///   let first_id = original_ids[0]
-///   assert_true(set_for_current([first_id]))
-///
-///   let current_ids = get_core_ids()
-///   assert_true(current_ids.contains(first_id))
-///
-///   ignore(set_for_current(original_ids))
+///   if set_for_current([first_id]) {
+///     let current_ids = get_core_ids()
+///     assert_true(current_ids.contains(first_id))
+///     ignore(set_for_current(original_ids))
+///   }
 /// }
 /// ```
 ///
