@@ -9,10 +9,9 @@
 
 // Windows implementation using Win32 API
 MOONBIT_FFI_EXPORT uint64_t moonbit_get_affinity_mask() {
-    DWORD_PTR process_affinity_mask;
-    DWORD_PTR system_affinity_mask;
-    if (GetProcessAffinityMask(GetCurrentProcess(), &process_affinity_mask, &system_affinity_mask)) {
-        return (uint64_t)process_affinity_mask;
+    GROUP_AFFINITY affinity;
+    if (GetThreadGroupAffinity(GetCurrentThread(), &affinity)) {
+        return (uint64_t)affinity.Mask;
     }
     return 0;
 }
@@ -77,9 +76,8 @@ MOONBIT_FFI_EXPORT int32_t moonbit_set_affinity_mask(uint64_t mask) {
     size_t size = sizeof(int);
     int is_arm64 = 0;
     if (sysctlbyname("hw.optional.arm64", &is_arm64, &size, NULL, 0) == 0 && is_arm64) {
-        // On Apple Silicon, thread affinity is heavily restricted by the OS
-        // Return true to indicate "success" since the OS will handle scheduling optimally
-        return 1;
+        // Apple Silicon does not expose a reliable per-core pinning API here.
+        return 0;
     }
     
     // For Intel Macs, try to set thread affinity
@@ -89,11 +87,9 @@ MOONBIT_FFI_EXPORT int32_t moonbit_set_affinity_mask(uint64_t mask) {
         if ((mask >> i) & 1) {
             thread_affinity_policy_data_t policy = { i };
             thread_port_t mach_thread = pthread_mach_thread_np(pthread_self());
-            kern_return_t result = thread_policy_set(mach_thread, THREAD_AFFINITY_POLICY, 
+            kern_return_t result = thread_policy_set(mach_thread, THREAD_AFFINITY_POLICY,
                                                    (thread_policy_t)&policy, THREAD_AFFINITY_POLICY_COUNT);
-            // Even if thread_policy_set fails on modern macOS, we return true
-            // because the system scheduler is generally better at managing affinity
-            return 1;
+            return result == KERN_SUCCESS;
         }
     }
     return 0; // No core found in mask

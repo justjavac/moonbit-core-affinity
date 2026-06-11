@@ -1,5 +1,11 @@
 # moonbit-core-affinity
 
+[![ci](https://github.com/justjavac/moonbit-core-affinity/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/justjavac/moonbit-core-affinity/actions/workflows/ci.yml)
+[![coverage](https://img.shields.io/codecov/c/github/justjavac/moonbit-core-affinity/main?label=coverage)](https://codecov.io/gh/justjavac/moonbit-core-affinity)
+[![linux](https://img.shields.io/codecov/c/github/justjavac/moonbit-core-affinity/main?flag=linux&label=linux)](https://codecov.io/gh/justjavac/moonbit-core-affinity)
+[![macos](https://img.shields.io/codecov/c/github/justjavac/moonbit-core-affinity/main?flag=macos&label=macos)](https://codecov.io/gh/justjavac/moonbit-core-affinity)
+[![windows](https://img.shields.io/codecov/c/github/justjavac/moonbit-core-affinity/main?flag=windows&label=windows)](https://codecov.io/gh/justjavac/moonbit-core-affinity)
+
 A MoonBit library for managing CPU core affinities to control thread-to-core binding.
 
 This library enables precise control over CPU core affinity, allowing you to bind threads to specific cores. It's particularly useful for high-performance applications, real-time systems, and scenarios where you need to optimize CPU cache locality, reduce context switching overhead, or isolate workloads on dedicated cores.
@@ -44,9 +50,9 @@ fn main {
 
 | Platform | get_core_ids() | set_for_current() | Implementation |
 |----------|----------------|-------------------|----------------|
-| Windows | Yes | Yes | Win32 API (`GetProcessAffinityMask`, `SetThreadAffinityMask`) |
+| Windows | Yes | Yes | Win32 API (`GetThreadGroupAffinity`, `SetThreadAffinityMask`) |
 | Linux | Yes | Yes | POSIX (`sched_getaffinity`, `sched_setaffinity`) |
-| macOS | Yes | Yes | BSD/Darwin thread affinity APIs |
+| macOS | Yes | Limited | BSD/Darwin thread affinity APIs |
 | Other Unix | Limited | Limited | Limited support, platform-dependent |
 
 - Yes = Full support

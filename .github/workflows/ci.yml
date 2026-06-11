@@ -50,7 +50,20 @@ jobs:
 
       - name: Run moon test
         run: |
-          moon test --target native
+          moon coverage clean
+          moon test --target native --enable-coverage
+
+      - name: Generate coverage report
+        run: |
+          moon coverage analyze -p justjavac/core_affinity -- -f cobertura -o coverage.xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: coverage.xml
+          flags: ${{ matrix.os == 'ubuntu-latest' && 'linux' || matrix.os == 'macos-latest' && 'macos' || 'windows' }}
+          name: ${{ matrix.os == 'ubuntu-latest' && 'linux' || matrix.os == 'macos-latest' && 'macos' || 'windows' }}
+          disable_search: true
 
       - name: moon build
         run: |

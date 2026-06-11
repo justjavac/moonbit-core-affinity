@@ -87,7 +87,8 @@ pub fn get_core_ids() -> Array[Int] {
 /// # Notes
 ///
 /// - The change applies only to the calling thread.
-/// - Passing a single-element array pins the current thread to one core.
+/// - Passing a single-element array asks the platform to pin the current
+///   thread to one core.
 /// - Some platforms may still reject a syntactically valid mask due to system
 ///   policy, missing permissions, or unsupported affinity APIs.
 pub fn set_for_current(ids : Array[Int]) -> Bool {

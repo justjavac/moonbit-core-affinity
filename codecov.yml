@@ -1,0 +1,19 @@
+comment:
+  after_n_builds: 3
+
+coverage:
+  status:
+    project:
+      default:
+        flags:
+          - linux
+          - macos
+          - windows
+
+flags:
+  linux:
+    carryforward: true
+  macos:
+    carryforward: true
+  windows:
+    carryforward: true

@@ -24,13 +24,14 @@ test "set_for_current" {
   println("Setting affinity to core: " + first_id.to_string())
 
   let new_ids = [first_id]
-  let success = set_for_current(new_ids)
-  assert_true(success)
-
-  let current_ids = get_core_ids()
-  println("Current thread can run on cores: \{to_repr(current_ids)}")
-  assert_true(current_ids.contains(first_id))
-  ignore(set_for_current(original_ids))
+  if set_for_current(new_ids) {
+    let current_ids = get_core_ids()
+    println("Current thread can run on cores: \{to_repr(current_ids)}")
+    assert_true(current_ids.contains(first_id))
+    ignore(set_for_current(original_ids))
+  } else {
+    println("Platform rejected the affinity request.")
+  }
 }
 
 ///|
