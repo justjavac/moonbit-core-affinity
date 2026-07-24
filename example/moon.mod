@@ -22,6 +22,4 @@ preferred_target = "native"
 
 supported_targets = "+native"
 
-options(
-  source: ".",
-)
+source = "."
