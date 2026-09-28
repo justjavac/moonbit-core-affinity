@@ -27,7 +27,7 @@ extern "C" fn get_affinity_mask() -> UInt64 = "moonbit_get_affinity_mask"
 /// # Example
 /// ```mbt check
 /// test "inspect current affinity" {
-///   let ids = get_core_ids()
+///   let ids = @core_affinity.get_core_ids()
 ///   assert_true(ids.length() > 0)
 ///   assert_true(ids.length() <= 64)
 /// }
@@ -41,7 +41,7 @@ extern "C" fn get_affinity_mask() -> UInt64 = "moonbit_get_affinity_mask"
 /// - The result reflects the calling thread, not the whole process.
 pub fn get_core_ids() -> Array[Int] {
   let mask = get_affinity_mask()
-  let ids = Array::new()
+  let ids = Array(capacity=64)
   for i in 0..<64 {
     if ((mask >> i) & 1UL) != 0UL {
       ids.push(i)
@@ -71,14 +71,14 @@ pub fn get_core_ids() -> Array[Int] {
 /// # Example
 /// ```mbt check
 /// test "pin thread to one available core" {
-///   let original_ids = get_core_ids()
+///   let original_ids = @core_affinity.get_core_ids()
 ///   assert_true(original_ids.length() > 0)
 ///
 ///   let first_id = original_ids[0]
-///   if set_for_current([first_id]) {
-///     let current_ids = get_core_ids()
+///   if @core_affinity.set_for_current([first_id]) {
+///     let current_ids = @core_affinity.get_core_ids()
 ///     assert_true(current_ids.contains(first_id))
-///     ignore(set_for_current(original_ids))
+///     ignore(@core_affinity.set_for_current(original_ids))
 ///   }
 /// }
 /// ```

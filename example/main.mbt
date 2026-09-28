@@ -15,7 +15,7 @@ fn main {
 
   // Get current available cores
   let core_ids = @core_affinity.get_core_ids()
-  println("Available core IDs: \{to_repr(core_ids)}")
+  println("Available core IDs: \{Repr(core_ids)}")
 
   // Early return if no cores are available
   if core_ids.length() == 0 {
@@ -35,7 +35,7 @@ fn main {
 
   // Verify the change
   let current_cores = @core_affinity.get_core_ids()
-  println("Current thread can now run on cores: \{to_repr(current_cores)}")
+  println("Current thread can now run on cores: \{Repr(current_cores)}")
 
   // Test with second core if available
   if core_ids.length() > 1 {
@@ -50,7 +50,7 @@ fn main {
 
     // Verify the change again
     let current_cores = @core_affinity.get_core_ids()
-    println("Current thread can now run on cores: \{to_repr(current_cores)}")
+    println("Current thread can now run on cores: \{Repr(current_cores)}")
   } else {
     println("\nOnly one core available, skipping second core test.")
   }
@@ -58,12 +58,12 @@ fn main {
   // Test with multiple cores if available
   if core_ids.length() > 2 {
     let multi_cores = [core_ids[0], core_ids[2]]
-    println("\nSetting affinity to multiple cores: \{to_repr(multi_cores)}")
+    println("\nSetting affinity to multiple cores: \{Repr(multi_cores)}")
     let success = @core_affinity.set_for_current(multi_cores)
     if success {
-      println("Successfully set affinity to cores: \{to_repr(multi_cores)}")
+      println("Successfully set affinity to cores: \{Repr(multi_cores)}")
       let final_cores = @core_affinity.get_core_ids()
-      println("Final thread affinity: \{to_repr(final_cores)}")
+      println("Final thread affinity: \{Repr(final_cores)}")
     } else {
       println("Failed to set affinity to multiple cores")
     }
