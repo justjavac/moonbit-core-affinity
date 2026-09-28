@@ -13,4 +13,3 @@ pub fn set_for_current(Array[Int]) -> Bool
 // Type aliases
 
 // Traits
-
