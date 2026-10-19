@@ -39,7 +39,7 @@ extern "C" fn get_affinity_mask() -> UInt64 = "moonbit_get_affinity_mask"
 /// - The package currently models up to 64 cores because it uses a `UInt64`
 ///   mask internally.
 /// - The result reflects the calling thread, not the whole process.
-pub fn get_core_ids() -> Array[Int] {
+pub fn get_core_ids() -> Array[Int32] {
   let mask = get_affinity_mask()
   let ids = Array(capacity=64)
   for i in 0..<64 {
@@ -90,7 +90,7 @@ pub fn get_core_ids() -> Array[Int] {
 ///   thread to one core.
 /// - Some platforms may still reject a syntactically valid mask due to system
 ///   policy, missing permissions, or unsupported affinity APIs.
-pub fn set_for_current(ids : Array[Int]) -> Bool {
+pub fn set_for_current(ids : Array[Int32]) -> Bool {
   if ids.length() == 0 {
     return false
   }
